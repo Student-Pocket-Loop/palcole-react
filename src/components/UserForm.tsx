@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import type { User } from '../types/User';
 import type { UserInput } from '../types/UserInput';
 
-export default function InsertUserForm() {
+export default function UserForm() {
     const { mutate, data, isPending, isError, error, isSuccess } = useMutation<
         User,
         Error,
