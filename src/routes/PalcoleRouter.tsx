@@ -9,6 +9,10 @@ import AllRolesPage from "../pages/AllRolesPage";
 import InsertRolePage from "../pages/InsertRolesPage";
 import RoleDetailPage from "../pages/RoleDetailPage";
 import UpdateRolePage from "../pages/UpdateRolePage";
+import AllCategoriesPage from "../pages/AllCategoriesPage";
+import InsertCategoryPage from "../pages/InsertCategoryPage";
+import CategoryDetailPage from "../pages/CategoryDetailPage";
+import UpdateCategoryPage from "../pages/UpdateCategoryPage";
 
 export const PalcoleRouter = createBrowserRouter([
     {
@@ -30,12 +34,21 @@ export const PalcoleRouter = createBrowserRouter([
             { path: "roles/:id", element: <RoleDetailPage /> },
             { path: "roles/edit/:id", element: <UpdateRolePage /> },
 
-            { path: "categories", element: <div>CRUD Categories (En construcción)</div> },
+            { path: "categories", element: <AllCategoriesPage /> },
+            { path: "categories/new", element: <InsertCategoryPage /> },
+            { path: "categories/:id", element: <CategoryDetailPage /> },
+            { path: "categories/edit/:id", element: <UpdateCategoryPage /> },
+
             { path: "academic-items", element: <div>CRUD Academic Items (En construcción)</div> },
+            
             { path: "promotions", element: <div>CRUD Promotions (En construcción)</div> },
+            
             { path: "favorite-items", element: <div>CRUD Favorite Items (En construcción)</div> },
+            
             { path: "favorite-promotions", element: <div>CRUD Favorite Promotions (En construcción)</div> },
+            
             { path: "conversations", element: <div>CRUD Conversations (En construcción)</div> },
+            
             { path: "messages", element: <div>CRUD Messages (En construcción)</div> },
         ]
     }
