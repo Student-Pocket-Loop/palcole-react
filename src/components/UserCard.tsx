@@ -3,10 +3,9 @@ import type { User } from "../types/User";
 
 interface UserCardProps {
     user: User;
-    onDelete: (id: number) => void;
 }
 
-export function UserCard({ user, onDelete }: UserCardProps) {
+export function UserCard({ user }: UserCardProps) {
     return (
         <article style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
             <h3>
@@ -26,16 +25,6 @@ export function UserCard({ user, onDelete }: UserCardProps) {
             <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.75rem" }}>
                 <Link to={`/users/${user.user_id}`}>Ver detalle</Link>
                 <Link to={`/users/edit/${user.user_id}`}>Editar</Link>
-                <button
-                    type="button"
-                    onClick={() => {
-                        if (confirm(`¿Eliminar al usuario ${user.username}?`)) {
-                        onDelete(user.user_id);
-                        }
-                    }}
-                >
-                    Eliminar
-                </button>
             </div>
         </article>
     );
