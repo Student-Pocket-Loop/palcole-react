@@ -27,7 +27,7 @@ import FavoriteItemDetailPage from "../pages/FavoriteItemDetailPage";
 import UpdateFavoriteItemPage from "../pages/UpdateFavoriteItemPage";
 import AllFavoritePromotionsPage from "../pages/AllFavoritePromotionsPage";
 import InsertFavoritePromotionPage from "../pages/InsertFavoritePromotionPage";
-import FavoritePromotionDetailPage from "../pages/favoritePromotionDetailPage";
+import FavoritePromotionDetailPage from "../pages/FavoritePromotionDetailPage";
 import UpdateFavoritePromotionPage from "../pages/UpdateFavoritePromotionPage";
 import AllConversationsPage from "../pages/AllConversationsPage";
 import InsertConversationPage from "../pages/InsertConversationPage";
