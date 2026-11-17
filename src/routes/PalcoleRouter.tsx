@@ -17,6 +17,10 @@ import AllAcademicItemsPage from "../pages/AllAcademicItemsPage";
 import InsertAcademicItemPage from "../pages/InsertAcademicItemPage";
 import AcademicItemDetailPage from "../pages/AcademicItemDetailPage";
 import UpdateAcademicItemPage from "../pages/UpdateAcademicItemPage";
+import AllPromotionsPage from "../pages/AllPromotionsPage";
+import InsertPromotionPage from "../pages/InsertPromotionPage";
+import PromotionDetailPage from "../pages/PromotionDetailPage";
+import UpdatePromotionPage from "../pages/UpdatePromotionPage";
 
 export const PalcoleRouter = createBrowserRouter([
     {
@@ -48,7 +52,10 @@ export const PalcoleRouter = createBrowserRouter([
             { path: "academic-items/:id", element: <AcademicItemDetailPage /> },
             { path: "academic-items/edit/:id", element: <UpdateAcademicItemPage /> },
             
-            { path: "promotions", element: <div>CRUD Promotions (En construcción)</div> },
+            { path: "promotions", element: <AllPromotionsPage /> },
+            { path: "promotions/new", element: <InsertPromotionPage /> },
+            { path: "promotions/:id", element: <PromotionDetailPage /> },
+            { path: "promotions/edit/:id", element: <UpdatePromotionPage /> },
             
             { path: "favorite-items", element: <div>CRUD Favorite Items (En construcción)</div> },
             
