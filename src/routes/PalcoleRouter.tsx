@@ -25,6 +25,10 @@ import AllFavoriteItemsPage from "../pages/AllFavoriteItemsPage";
 import InsertFavoriteItemPage from "../pages/InsertFavoriteItemPage";
 import FavoriteItemDetailPage from "../pages/FavoriteItemDetailPage";
 import UpdateFavoriteItemPage from "../pages/UpdateFavoriteItemPage";
+import AllFavoritePromotionsPage from "../pages/AllFavoritePromotionsPage";
+import InsertFavoritePromotionPage from "../pages/InsertFavoritePromotionPage";
+import FavoritePromotionDetailPage from "../pages/favoritePromotionDetailPage";
+import UpdateFavoritePromotionPage from "../pages/UpdateFavoritePromotionPage";
 
 export const PalcoleRouter = createBrowserRouter([
     {
@@ -66,7 +70,10 @@ export const PalcoleRouter = createBrowserRouter([
             { path: "favorite-items/:userId/:itemId", element: <FavoriteItemDetailPage /> },
             { path: "favorite-items/edit/:userId/:itemId", element: <UpdateFavoriteItemPage /> },
             
-            { path: "favorite-promotions", element: <div>CRUD Favorite Promotions (En construcción)</div> },
+            { path: "favorite-promotions", element: <AllFavoritePromotionsPage /> },
+            { path: "favorite-promotions/new", element: <InsertFavoritePromotionPage /> },
+            { path: "favorite-promotions/:userId/:promotionId", element: <FavoritePromotionDetailPage /> },
+            { path: "favorite-promotions/edit/:userId/:promotionId", element: <UpdateFavoritePromotionPage /> },
             
             { path: "conversations", element: <div>CRUD Conversations (En construcción)</div> },
             
