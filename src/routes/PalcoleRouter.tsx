@@ -27,8 +27,12 @@ import FavoriteItemDetailPage from "../pages/FavoriteItemDetailPage";
 import UpdateFavoriteItemPage from "../pages/UpdateFavoriteItemPage";
 import AllFavoritePromotionsPage from "../pages/AllFavoritePromotionsPage";
 import InsertFavoritePromotionPage from "../pages/InsertFavoritePromotionPage";
-import FavoritePromotionDetailPage from "../pages/favoritePromotionDetailPage";
+import FavoritePromotionDetailPage from "../pages/FavoritePromotionDetailPage";
 import UpdateFavoritePromotionPage from "../pages/UpdateFavoritePromotionPage";
+import AllConversationsPage from "../pages/AllConversationsPage";
+import InsertConversationPage from "../pages/InsertConversationPage";
+import ConversationDetailPage from "../pages/ConversationDetailPage";
+import UpdateConversationPage from "../pages/UpdateConversationPage";
 
 export const PalcoleRouter = createBrowserRouter([
     {
@@ -75,7 +79,10 @@ export const PalcoleRouter = createBrowserRouter([
             { path: "favorite-promotions/:userId/:promotionId", element: <FavoritePromotionDetailPage /> },
             { path: "favorite-promotions/edit/:userId/:promotionId", element: <UpdateFavoritePromotionPage /> },
             
-            { path: "conversations", element: <div>CRUD Conversations (En construcción)</div> },
+            { path: "conversations", element: <AllConversationsPage /> },
+            { path: "conversations/new", element: <InsertConversationPage /> },
+            { path: "conversations/:id", element: <ConversationDetailPage /> },
+            { path: "conversations/edit/:id", element: <UpdateConversationPage /> },
             
             { path: "messages", element: <div>CRUD Messages (En construcción)</div> },
         ]
