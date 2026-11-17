@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import type { Category } from '../types/Category';
 import type { CategoryInput } from '../types/CategoryInput';
 
-export default function InsertCategoryForm() {
+export default function CategoryForm() {
     const { mutate, data, isPending, isError, error, isSuccess } = useMutation<
         Category,
         Error,
