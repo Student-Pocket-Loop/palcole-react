@@ -21,6 +21,10 @@ import AllPromotionsPage from "../pages/AllPromotionsPage";
 import InsertPromotionPage from "../pages/InsertPromotionPage";
 import PromotionDetailPage from "../pages/PromotionDetailPage";
 import UpdatePromotionPage from "../pages/UpdatePromotionPage";
+import AllFavoriteItemsPage from "../pages/AllFavoriteItemsPage";
+import InsertFavoriteItemPage from "../pages/InsertFavoriteItemPage";
+import FavoriteItemDetailPage from "../pages/FavoriteItemDetailPage";
+import UpdateFavoriteItemPage from "../pages/UpdateFavoriteItemPage";
 
 export const PalcoleRouter = createBrowserRouter([
     {
@@ -57,7 +61,10 @@ export const PalcoleRouter = createBrowserRouter([
             { path: "promotions/:id", element: <PromotionDetailPage /> },
             { path: "promotions/edit/:id", element: <UpdatePromotionPage /> },
             
-            { path: "favorite-items", element: <div>CRUD Favorite Items (En construcción)</div> },
+            { path: "favorite-items", element: <AllFavoriteItemsPage /> },
+            { path: "favorite-items/new", element: <InsertFavoriteItemPage /> },
+            { path: "favorite-items/:userId/:itemId", element: <FavoriteItemDetailPage /> },
+            { path: "favorite-items/edit/:userId/:itemId", element: <UpdateFavoriteItemPage /> },
             
             { path: "favorite-promotions", element: <div>CRUD Favorite Promotions (En construcción)</div> },
             
