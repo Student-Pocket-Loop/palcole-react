@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import InsertRoleForm from '../components/RoleForm';
+import RoleForm from '../components/RoleForm';
 
 export default function InsertRolePage() {
     return (
         <section>
             <h1>Insertar Rol</h1>
-            <InsertRoleForm />
+            <RoleForm />
             <br />
             <Link to="/roles">← Volver al listado</Link>
         </section>
