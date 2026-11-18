@@ -1,0 +1,26 @@
+[
+  {
+    "promotion_id": 1,
+    "category_id": 1,
+    "title": "Pack Vuelta al Cole - Libros Bachillerato",
+    "description": "20% de descuento directo en lotes de 3 o más libros de texto.",
+    "original_price": 60.0,
+    "discount_price": 48.0,
+    "discount_percentage": 20,
+    "promo_code": "VUELTA20",
+    "start_date": "2026-09-01",
+    "end_date": "2026-12-31"
+  },
+  {
+    "promotion_id": 2,
+    "category_id": 3,
+    "title": "Descuento Papelería Universitaria",
+    "description": "Rebaja especial en cuadernos, archivadores y calculadoras científicas.",
+    "original_price": 25.0,
+    "discount_price": 17.5,
+    "discount_percentage": 30,
+    "promo_code": "ESTUDIANTE30",
+    "start_date": "2026-10-01",
+    "end_date": "2026-11-30"
+  }
+]
