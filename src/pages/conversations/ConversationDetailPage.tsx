@@ -57,14 +57,14 @@ export default function ConversationDetailPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando detalle de la conversación...</p>;
-    if (isError || !conversation) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando detalle de la conversación...</p>;
+    if (isError || !conversation) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="detail-page">
             <h1>Detalle de la Conversación #{conversation.conversation_id}</h1>
 
-            <ul>
+            <ul className="detail-list">
                 <li><strong>ID:</strong> {conversation.conversation_id}</li>
                 <li><strong>Item ID:</strong> {conversation.item_id}</li>
                 <li><strong>Buyer ID:</strong> {conversation.buyer_id}</li>
@@ -72,14 +72,15 @@ export default function ConversationDetailPage() {
             </ul>
 
             {deleteMutation.isError && (
-                <p style={{ color: 'red' }}>Error al eliminar: {deleteMutation.error?.message}</p>
+                <div className="status-error">Error al eliminar: {deleteMutation.error?.message}</div>
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
-                <Link to="/conversations">← Volver</Link>
-                <Link to={`/conversations/edit/${conversation.conversation_id}`}>Editar</Link>
+            <div className="detail-actions">
+                <Link to="/conversations" className="btn-back">← Volver</Link>
+                <Link to={`/conversations/edit/${conversation.conversation_id}`} className="btn-edit">Editar</Link>
                 <button
                     type="button"
+                    className="btn-delete"
                     disabled={deleteMutation.isPending}
                     onClick={() => {
                         if (confirm(`¿Seguro que quieres eliminar la conversación #${conversation.conversation_id}?`)) {

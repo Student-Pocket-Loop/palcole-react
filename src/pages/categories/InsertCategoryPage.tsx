@@ -3,11 +3,10 @@ import CategoryForm from '../../components/categories/CategoryForm';
 
 export default function InsertCategoryPage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Insertar Categoría</h1>
             <CategoryForm />
-            <br />
-            <Link to="/categories">← Volver al listado</Link>
+            <Link to="/categories" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }

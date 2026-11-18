@@ -26,21 +26,25 @@ export default function AllCategoriesPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando categorías...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando categorías...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Categorías</h1>
-                <Link to="/categories/new">+ Insertar categoría</Link>
+                <Link to="/categories/new" className="btn-create">+ Insertar categoría</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {categories?.map((category) => (
-                    <CategoryCard key={category.category_id} category={category} />
-                ))}
-            </div>
+            {categories && categories.length === 0 ? (
+                <p className="empty-state">No hay categorías disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {categories?.map((category) => (
+                        <CategoryCard key={category.category_id} category={category} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

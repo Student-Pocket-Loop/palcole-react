@@ -55,14 +55,14 @@ export default function MessageDetailPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando detalle del mensaje...</p>;
-    if (isError || !message) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando detalle del mensaje...</p>;
+    if (isError || !message) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="detail-page">
             <h1>Detalle del Mensaje #{message.message_id}</h1>
 
-            <ul>
+            <ul className="detail-list">
                 <li><strong>ID:</strong> {message.message_id}</li>
                 <li><strong>Conversation ID:</strong> {message.conversation_id}</li>
                 <li><strong>Sender ID:</strong> {message.sender_id}</li>
@@ -71,14 +71,15 @@ export default function MessageDetailPage() {
             </ul>
 
             {deleteMutation.isError && (
-                <p style={{ color: 'red' }}>Error al eliminar: {deleteMutation.error?.message}</p>
+                <div className="status-error">Error al eliminar: {deleteMutation.error?.message}</div>
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
-                <Link to="/messages">← Volver</Link>
-                <Link to={`/messages/edit/${message.message_id}`}>Editar</Link>
+            <div className="detail-actions">
+                <Link to="/messages" className="btn-back">← Volver</Link>
+                <Link to={`/messages/edit/${message.message_id}`} className="btn-edit">Editar</Link>
                 <button
                     type="button"
+                    className="btn-delete"
                     disabled={deleteMutation.isPending}
                     onClick={() => {
                         if (confirm(`¿Seguro que quieres eliminar el mensaje #${message.message_id}?`)) {

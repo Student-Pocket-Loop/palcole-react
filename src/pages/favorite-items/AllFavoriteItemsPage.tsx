@@ -26,21 +26,25 @@ export default function AllFavoriteItemsPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando items favoritos...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando items favoritos...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Favorite Items</h1>
-                <Link to="/favorite-items/new">+ Añadir favorito</Link>
+                <Link to="/favorite-items/new" className="btn-create">+ Añadir favorito</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {favoriteItems?.map((fav) => (
-                    <FavoriteItemCard key={`${fav.user_id}-${fav.item_id}`} favoriteItem={fav} />
-                ))}
-            </div>
+            {favoriteItems && favoriteItems.length === 0 ? (
+                <p className="empty-state">No hay items favoritos disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {favoriteItems?.map((fav) => (
+                        <FavoriteItemCard key={`${fav.user_id}-${fav.item_id}`} favoriteItem={fav} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

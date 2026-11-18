@@ -62,15 +62,17 @@ export default function UserForm() {
     };
 
     if (isError) {
-        return <h3>Error al introducir el usuario: {error?.message}</h3>;
+        return <div className="status-error">Error al introducir el usuario: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>El usuario se ha insertado correctamente con ID: {data.user_id}!</h3>
+                <div className="status-success">
+                    El usuario se ha insertado correctamente con ID: {data.user_id}!
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="role_id">Role ID:</label>
                     <input type="number" id="role_id" name="role_id" defaultValue={1} required />
 
@@ -106,7 +108,7 @@ export default function UserForm() {
                         <input type="checkbox" id="is_active" name="is_active" defaultChecked /> Usuario activo
                     </label>
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Inserta usuario'}
                     </button>
                 </form>

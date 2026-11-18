@@ -93,18 +93,18 @@ export default function UpdateAcademicItemPage() {
         updateMutation.mutate(updatedItem);
     };
 
-    if (isLoading) return <p>Cargando datos del recurso...</p>;
-    if (isError || !item) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando datos del recurso...</p>;
+    if (isError || !item) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="form-page">
             <h1>Editar Recurso #{item.item_id}</h1>
 
             {updateMutation.isError && (
-                <h3 style={{ color: 'red' }}>Error al actualizar: {updateMutation.error?.message}</h3>
+                <div className="status-error">Error al actualizar: {updateMutation.error?.message}</div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <form onSubmit={handleSubmit} className="entity-form">
                 <label htmlFor="student_id">Student ID:</label>
                 <input type="number" id="student_id" name="student_id" defaultValue={item.student_id} required />
 
@@ -147,13 +147,14 @@ export default function UpdateAcademicItemPage() {
                     defaultValue={item.image_url ?? ''}
                 />
 
-                <button type="submit" disabled={updateMutation.isPending} style={{ marginTop: '20px' }}>
+                <button type="submit" className="btn-submit" disabled={updateMutation.isPending}>
                     {updateMutation.isPending ? 'Guardando...' : 'Actualizar recurso'}
                 </button>
             </form>
 
-            <br />
-            <Link to={`/academic-items/${item.item_id}`}>← Cancelar y volver</Link>
+            <Link to={`/academic-items/${item.item_id}`} className="form-back-link">
+                ← Cancelar y volver
+            </Link>
         </section>
     );
 }

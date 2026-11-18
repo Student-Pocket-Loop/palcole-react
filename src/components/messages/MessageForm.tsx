@@ -57,15 +57,17 @@ export default function MessageForm() {
     };
 
     if (isError) {
-        return <h3>Error al enviar el mensaje: {error?.message}</h3>;
+        return <div className="status-error">Error al enviar el mensaje: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>El mensaje se ha enviado correctamente con ID: {data.message_id}!</h3>
+                <div className="status-success">
+                    El mensaje se ha enviado correctamente con ID: {data.message_id}!
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="conversation_id">Conversation ID:</label>
                     <input type="number" id="conversation_id" name="conversation_id" defaultValue={1} required />
 
@@ -84,7 +86,7 @@ export default function MessageForm() {
                         required
                     />
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Enviar mensaje'}
                     </button>
                 </form>

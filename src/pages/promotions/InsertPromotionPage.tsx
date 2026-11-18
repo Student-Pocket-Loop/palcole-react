@@ -3,11 +3,10 @@ import PromotionForm from '../../components/promotions/PromotionForm';
 
 export default function InsertPromotionPage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Insertar Promoción</h1>
             <PromotionForm />
-            <br />
-            <Link to="/promotions">← Volver al listado</Link>
+            <Link to="/promotions" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }

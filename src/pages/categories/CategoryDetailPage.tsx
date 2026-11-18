@@ -55,27 +55,28 @@ export default function CategoryDetailPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando detalle de la categoría...</p>;
-    if (isError || !category) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando detalle de la categoría...</p>;
+    if (isError || !category) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="detail-page">
             <h1>Detalle de la Categoría #{category.category_id}</h1>
 
-            <ul>
+            <ul className="detail-list">
                 <li><strong>ID:</strong> {category.category_id}</li>
                 <li><strong>Nombre:</strong> {category.name}</li>
             </ul>
 
             {deleteMutation.isError && (
-                <p style={{ color: 'red' }}>Error al eliminar: {deleteMutation.error?.message}</p>
+                <div className="status-error">Error al eliminar: {deleteMutation.error?.message}</div>
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
-                <Link to="/categories">← Volver</Link>
-                <Link to={`/categories/edit/${category.category_id}`}>Editar</Link>
+            <div className="detail-actions">
+                <Link to="/categories" className="btn-back">← Volver</Link>
+                <Link to={`/categories/edit/${category.category_id}`} className="btn-edit">Editar</Link>
                 <button
                     type="button"
+                    className="btn-delete"
                     disabled={deleteMutation.isPending}
                     onClick={() => {
                         if (confirm(`¿Seguro que quieres eliminar la categoría "${category.name}"?`)) {

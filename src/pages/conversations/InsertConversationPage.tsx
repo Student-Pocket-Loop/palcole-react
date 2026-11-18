@@ -3,11 +3,10 @@ import ConversationForm from '../../components/conversations/ConversationForm';
 
 export default function InsertConversationPage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Crear Conversación</h1>
             <ConversationForm />
-            <br />
-            <Link to="/conversations">← Volver al listado</Link>
+            <Link to="/conversations" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }

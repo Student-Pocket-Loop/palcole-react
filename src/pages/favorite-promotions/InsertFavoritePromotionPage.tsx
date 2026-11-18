@@ -3,11 +3,10 @@ import FavoritePromotionForm from '../../components/favorite-promotions/Favorite
 
 export default function InsertFavoritePromotionPage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Añadir Promoción a Favoritos</h1>
             <FavoritePromotionForm />
-            <br />
-            <Link to="/favorite-promotions">← Volver al listado</Link>
+            <Link to="/favorite-promotions" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }

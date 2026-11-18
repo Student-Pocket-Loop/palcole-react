@@ -26,21 +26,25 @@ export default function AllUsersPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando usuarios...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando usuarios...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Usuarios</h1>
-                <Link to="/users/new">+ Insertar usuario</Link>
+                <Link to="/users/new" className="btn-create">+ Insertar usuario</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {users?.map((user) => (
-                    <UserCard key={user.user_id} user={user} />
-                ))}
-            </div>
+            {users && users.length === 0 ? (
+                <p className="empty-state">No hay usuarios disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {users?.map((user) => (
+                        <UserCard key={user.user_id} user={user} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

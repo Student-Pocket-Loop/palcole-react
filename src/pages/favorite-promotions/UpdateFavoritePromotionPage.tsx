@@ -84,31 +84,35 @@ export default function UpdateFavoritePromotionPage() {
         updateMutation.mutate(updatedFavorite);
     };
 
-    if (isLoading) return <p>Cargando datos del favorito...</p>;
-    if (isError || !favoritePromotion) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando datos del favorito...</p>;
+    if (isError || !favoritePromotion) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="form-page">
             <h1>Editar Favorito (Usuario #{favoritePromotion.user_id} - Promoción #{favoritePromotion.promotion_id})</h1>
 
             {updateMutation.isError && (
-                <h3 style={{ color: 'red' }}>Error al actualizar: {updateMutation.error?.message}</h3>
+                <div className="status-error">Error al actualizar: {updateMutation.error?.message}</div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <form onSubmit={handleSubmit} className="entity-form">
                 <label htmlFor="user_id">User ID:</label>
                 <input type="number" id="user_id" name="user_id" defaultValue={favoritePromotion.user_id} required />
 
                 <label htmlFor="promotion_id">Promotion ID:</label>
                 <input type="number" id="promotion_id" name="promotion_id" defaultValue={favoritePromotion.promotion_id} required />
 
-                <button type="submit" disabled={updateMutation.isPending} style={{ marginTop: '20px' }}>
+                <button type="submit" className="btn-submit" disabled={updateMutation.isPending}>
                     {updateMutation.isPending ? 'Guardando...' : 'Actualizar favorito'}
                 </button>
             </form>
 
-            <br />
-            <Link to={`/favorite-promotions/${favoritePromotion.user_id}/${favoritePromotion.promotion_id}`}>← Cancelar y volver</Link>
+            <Link
+                to={`/favorite-promotions/${favoritePromotion.user_id}/${favoritePromotion.promotion_id}`}
+                className="form-back-link"
+            >
+                ← Cancelar y volver
+            </Link>
         </section>
     );
 }

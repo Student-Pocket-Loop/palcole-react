@@ -86,18 +86,18 @@ export default function UpdateMessagePage() {
         updateMutation.mutate(updatedMessage);
     };
 
-    if (isLoading) return <p>Cargando datos del mensaje...</p>;
-    if (isError || !message) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando datos del mensaje...</p>;
+    if (isError || !message) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="form-page">
             <h1>Editar Mensaje #{message.message_id}</h1>
 
             {updateMutation.isError && (
-                <h3 style={{ color: 'red' }}>Error al actualizar: {updateMutation.error?.message}</h3>
+                <div className="status-error">Error al actualizar: {updateMutation.error?.message}</div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <form onSubmit={handleSubmit} className="entity-form">
                 <label htmlFor="conversation_id">Conversation ID:</label>
                 <input type="number" id="conversation_id" name="conversation_id" defaultValue={message.conversation_id} required />
 
@@ -116,13 +116,14 @@ export default function UpdateMessagePage() {
                     required
                 />
 
-                <button type="submit" disabled={updateMutation.isPending} style={{ marginTop: '20px' }}>
+                <button type="submit" className="btn-submit" disabled={updateMutation.isPending}>
                     {updateMutation.isPending ? 'Guardando...' : 'Actualizar mensaje'}
                 </button>
             </form>
 
-            <br />
-            <Link to={`/messages/${message.message_id}`}>← Cancelar y volver</Link>
+            <Link to={`/messages/${message.message_id}`} className="form-back-link">
+                ← Cancelar y volver
+            </Link>
         </section>
     );
 }

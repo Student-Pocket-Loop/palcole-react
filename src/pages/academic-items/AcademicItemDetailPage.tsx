@@ -55,14 +55,14 @@ export default function AcademicItemDetailPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando detalle del recurso...</p>;
-    if (isError || !item) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando detalle del recurso...</p>;
+    if (isError || !item) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="detail-page">
             <h1>Detalle del Recurso #{item.item_id}</h1>
 
-            <ul>
+            <ul className="detail-list">
                 <li><strong>Título:</strong> {item.title}</li>
                 <li><strong>Descripción:</strong> {item.description}</li>
                 <li><strong>Precio:</strong> {item.price} €</li>
@@ -76,14 +76,15 @@ export default function AcademicItemDetailPage() {
             </ul>
 
             {deleteMutation.isError && (
-                <p style={{ color: 'red' }}>Error al eliminar: {deleteMutation.error?.message}</p>
+                <div className="status-error">Error al eliminar: {deleteMutation.error?.message}</div>
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
-                <Link to="/academic-items">← Volver</Link>
-                <Link to={`/academic-items/edit/${item.item_id}`}>Editar</Link>
+            <div className="detail-actions">
+                <Link to="/academic-items" className="btn-back">← Volver</Link>
+                <Link to={`/academic-items/edit/${item.item_id}`} className="btn-edit">Editar</Link>
                 <button
                     type="button"
+                    className="btn-delete"
                     disabled={deleteMutation.isPending}
                     onClick={() => {
                         if (confirm(`¿Seguro que quieres eliminar "${item.title}"?`)) {

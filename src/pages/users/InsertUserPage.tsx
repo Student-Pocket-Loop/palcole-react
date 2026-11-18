@@ -3,11 +3,10 @@ import UserForm from '../../components/users/UserForm';
 
 export default function InsertUserPage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Insertar Usuario</h1>
             <UserForm />
-            <br />
-            <Link to="/users">← Volver al listado</Link>
+            <Link to="/users" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }

@@ -3,11 +3,10 @@ import MessageForm from '../../components/messages/MessageForm';
 
 export default function InsertMessagePage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Enviar Mensaje</h1>
             <MessageForm />
-            <br />
-            <Link to="/messages">← Volver al listado</Link>
+            <Link to="/messages" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }

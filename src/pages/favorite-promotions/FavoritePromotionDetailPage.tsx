@@ -57,27 +57,33 @@ export default function FavoritePromotionDetailPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando detalle del favorito...</p>;
-    if (isError || !favoritePromotion) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando detalle del favorito...</p>;
+    if (isError || !favoritePromotion) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="detail-page">
             <h1>Detalle de la Promoción Favorita</h1>
 
-            <ul>
+            <ul className="detail-list">
                 <li><strong>User ID:</strong> {favoritePromotion.user_id}</li>
                 <li><strong>Promotion ID:</strong> {favoritePromotion.promotion_id}</li>
             </ul>
 
             {deleteMutation.isError && (
-                <p style={{ color: 'red' }}>Error al eliminar: {deleteMutation.error?.message}</p>
+                <div className="status-error">Error al eliminar: {deleteMutation.error?.message}</div>
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
-                <Link to="/favorite-promotions">← Volver</Link>
-                <Link to={`/favorite-promotions/edit/${favoritePromotion.user_id}/${favoritePromotion.promotion_id}`}>Editar</Link>
+            <div className="detail-actions">
+                <Link to="/favorite-promotions" className="btn-back">← Volver</Link>
+                <Link
+                    to={`/favorite-promotions/edit/${favoritePromotion.user_id}/${favoritePromotion.promotion_id}`}
+                    className="btn-edit"
+                >
+                    Editar
+                </Link>
                 <button
                     type="button"
+                    className="btn-delete"
                     disabled={deleteMutation.isPending}
                     onClick={() => {
                         if (confirm(`¿Seguro que quieres quitar la promoción #${favoritePromotion.promotion_id} de favoritos del usuario #${favoritePromotion.user_id}?`)) {

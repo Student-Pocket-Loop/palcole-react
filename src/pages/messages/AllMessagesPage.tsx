@@ -26,21 +26,25 @@ export default function AllMessagesPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando mensajes...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando mensajes...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Mensajes</h1>
-                <Link to="/messages/new">+ Nuevo mensaje</Link>
+                <Link to="/messages/new" className="btn-create">+ Nuevo mensaje</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {messages?.map((message) => (
-                    <MessageCard key={message.message_id} message={message} />
-                ))}
-            </div>
+            {messages && messages.length === 0 ? (
+                <p className="empty-state">No hay mensajes disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {messages?.map((message) => (
+                        <MessageCard key={message.message_id} message={message} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

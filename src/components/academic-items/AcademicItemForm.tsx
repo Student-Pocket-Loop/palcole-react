@@ -64,15 +64,17 @@ export default function AcademicItemForm() {
     };
 
     if (isError) {
-        return <h3>Error al introducir el recurso académico: {error?.message}</h3>;
+        return <div className="status-error">Error al introducir el recurso académico: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>El recurso académico se ha insertado correctamente con ID: {data.item_id}!</h3>
+                <div className="status-success">
+                    El recurso académico se ha insertado correctamente con ID: {data.item_id}!
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="student_id">Student ID:</label>
                     <input type="number" id="student_id" name="student_id" defaultValue={1} required />
 
@@ -127,7 +129,7 @@ export default function AcademicItemForm() {
                     <label htmlFor="image_url">URL de imagen:</label>
                     <input type="text" id="image_url" name="image_url" maxLength={150} placeholder="https://..." />
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Inserta recurso'}
                     </button>
                 </form>
