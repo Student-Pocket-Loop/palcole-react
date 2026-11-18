@@ -61,15 +61,17 @@ export default function PromotionForm() {
     };
 
     if (isError) {
-        return <h3>Error al introducir la promoción: {error?.message}</h3>;
+        return <div className="status-error">Error al introducir la promoción: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>La promoción se ha insertado correctamente con ID: {data.promotion_id}!</h3>
+                <div className="status-success">
+                    La promoción se ha insertado correctamente con ID: {data.promotion_id}!
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="category_id">Category ID:</label>
                     <input type="number" id="category_id" name="category_id" defaultValue={1} required />
 
@@ -108,7 +110,7 @@ export default function PromotionForm() {
                         required
                     />
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Inserta promoción'}
                     </button>
                 </form>

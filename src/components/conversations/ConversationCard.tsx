@@ -7,20 +7,28 @@ interface ConversationCardProps {
 
 export function ConversationCard({ conversation }: ConversationCardProps) {
     return (
-        <article style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
-            <h3>
-                Conversación #{conversation.conversation_id}
-            </h3>
-            <p>
-                <strong>Item ID:</strong> {conversation.item_id} | <strong>Comprador (Buyer ID):</strong> {conversation.buyer_id}
-            </p>
-            <p>
-                <strong>Iniciada el:</strong> {conversation.started_at}
-            </p>
+        <article className="entity-card">
+            <div className="card-header">
+                <h3 className="card-title">Conversación</h3>
+                <span className="card-badge">#{conversation.conversation_id}</span>
+            </div>
 
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.75rem" }}>
-                <Link to={`/conversations/${conversation.conversation_id}`}>Ver detalle</Link>
-                <Link to={`/conversations/edit/${conversation.conversation_id}`}>Editar</Link>
+            <div className="card-body">
+                <p>
+                    <strong>Item ID:</strong> {conversation.item_id} | <strong>Comprador (Buyer ID):</strong> {conversation.buyer_id}
+                </p>
+                <p>
+                    <strong>Iniciada el:</strong> {conversation.started_at}
+                </p>
+            </div>
+
+            <div className="card-actions">
+                <Link to={`/conversations/${conversation.conversation_id}`} className="card-link">
+                    Ver detalle
+                </Link>
+                <Link to={`/conversations/edit/${conversation.conversation_id}`} className="card-link">
+                    Editar
+                </Link>
             </div>
         </article>
     );

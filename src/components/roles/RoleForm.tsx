@@ -53,15 +53,17 @@ export default function RoleForm() {
     };
 
     if (isError) {
-        return <h3>Error al introducir el rol: {error?.message}</h3>;
+        return <div className="status-error">Error al introducir el rol: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>El rol se ha insertado correctamente con ID: {data.role_id}!</h3>
+                <div className="status-success">
+                    El rol se ha insertado correctamente con ID: {data.role_id}!
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="name">Nombre del rol:</label>
                     <input
                         type="text"
@@ -72,7 +74,7 @@ export default function RoleForm() {
                         required
                     />
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Inserta rol'}
                     </button>
                 </form>

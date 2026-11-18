@@ -7,14 +7,19 @@ interface RoleCardProps {
 
 export function RoleCard({ role }: RoleCardProps) {
     return (
-        <article style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
-            <h3>
-                #{role.role_id} — {role.name}
-            </h3>
+        <article className="entity-card">
+            <div className="card-header">
+                <h3 className="card-title">{role.name}</h3>
+                <span className="card-badge">#{role.role_id}</span>
+            </div>
 
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.75rem" }}>
-                <Link to={`/roles/${role.role_id}`}>Ver detalle</Link>
-                <Link to={`/roles/edit/${role.role_id}`}>Editar</Link>
+            <div className="card-actions">
+                <Link to={`/roles/${role.role_id}`} className="card-link">
+                    Ver detalle
+                </Link>
+                <Link to={`/roles/edit/${role.role_id}`} className="card-link">
+                    Editar
+                </Link>
             </div>
         </article>
     );

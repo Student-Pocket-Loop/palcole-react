@@ -7,14 +7,19 @@ interface CategoryCardProps {
 
 export function CategoryCard({ category }: CategoryCardProps) {
     return (
-        <article style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
-            <h3>
-                #{category.category_id} — {category.name}
-            </h3>
+        <article className="entity-card">
+            <div className="card-header">
+                <h3 className="card-title">{category.name}</h3>
+                <span className="card-badge">#{category.category_id}</span>
+            </div>
 
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.75rem" }}>
-                <Link to={`/categories/${category.category_id}`}>Ver detalle</Link>
-                <Link to={`/categories/edit/${category.category_id}`}>Editar</Link>
+            <div className="card-actions">
+                <Link to={`/categories/${category.category_id}`} className="card-link">
+                    Ver detalle
+                </Link>
+                <Link to={`/categories/edit/${category.category_id}`} className="card-link">
+                    Editar
+                </Link>
             </div>
         </article>
     );

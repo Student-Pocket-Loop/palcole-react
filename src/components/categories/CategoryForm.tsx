@@ -53,15 +53,17 @@ export default function CategoryForm() {
     };
 
     if (isError) {
-        return <h3>Error al introducir la categoría: {error?.message}</h3>;
+        return <div className="status-error">Error al introducir la categoría: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>La categoría se ha insertado correctamente con ID: {data.category_id}!</h3>
+                <div className="status-success">
+                    La categoría se ha insertado correctamente con ID: {data.category_id}!
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="name">Nombre de la categoría:</label>
                     <input
                         type="text"
@@ -72,7 +74,7 @@ export default function CategoryForm() {
                         required
                     />
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Inserta categoría'}
                     </button>
                 </form>

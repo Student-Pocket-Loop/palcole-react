@@ -53,24 +53,24 @@ export default function FavoritePromotionForm() {
     };
 
     if (isError) {
-        return <h3>Error al añadir el favorito: {error?.message}</h3>;
+        return <div className="status-error">Error al añadir el favorito: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>
+                <div className="status-success">
                     ¡Promoción favorita guardada correctamente (Usuario #{data.user_id} - Promoción #{data.promotion_id})!
-                </h3>
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="user_id">User ID:</label>
                     <input type="number" id="user_id" name="user_id" defaultValue={1} required />
 
                     <label htmlFor="promotion_id">Promotion ID:</label>
                     <input type="number" id="promotion_id" name="promotion_id" defaultValue={1} required />
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Guardar en favoritos'}
                     </button>
                 </form>

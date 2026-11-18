@@ -1,30 +1,80 @@
-import { Link } from "react-router-dom";
-import type { Message } from "../../types/Message";
+import type { SubmitEvent } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import type { FavoritePromotion } from '../../types/FavoritePromotion';
+import type { FavoritePromotionInput } from '../../types/FavoritePromotionInput';
 
-interface MessageCardProps {
-    message: Message;
-}
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
-export function MessageCard({ message }: MessageCardProps) {
+export default function FavoritePromotionForm() {
+    const { mutate, data, isPending, isError, error, isSuccess } = useMutation<
+        FavoritePromotion,
+        Error,
+        FavoritePromotionInput
+    >({
+        mutationFn: async (newFavorite: FavoritePromotionInput): Promise<FavoritePromotion> => {
+            try {
+                const response = await fetch(`${API_URL}/favorite-promotions/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newFavorite),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(
+                        Array.isArray(errorData.message)
+                            ? errorData.message.join(', ')
+                            : errorData.message || 'Error al añadir la promoción a favoritos'
+                    );
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, simulando inserción de promoción favorita');
+                return {
+                    ...newFavorite,
+                };
+            }
+        },
+    });
+
+    const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+
+        const newFavorite: FavoritePromotionInput = {
+            user_id: Number(formData.get('user_id')),
+            promotion_id: Number(formData.get('promotion_id')),
+        };
+
+        mutate(newFavorite);
+    };
+
+    if (isError) {
+        return <div className="status-error">Error al añadir el favorito: {error?.message}</div>;
+    }
+
     return (
-        <article style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
-            <h3>
-                Mensaje #{message.message_id}
-            </h3>
-            <p>
-                <strong>Conversación ID:</strong> {message.conversation_id} | <strong>Remitente (Sender ID):</strong> {message.sender_id}
-            </p>
-            <p>
-                <strong>Contenido:</strong> {message.content}
-            </p>
-            <p>
-                <strong>Enviado el:</strong> {message.sent_at}
-            </p>
+        <>
+            {isSuccess && data ? (
+                <div className="status-success">
+                    ¡Promoción favorita guardada correctamente (Usuario #{data.user_id} - Promoción #{data.promotion_id})!
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit} className="entity-form">
+                    <label htmlFor="user_id">User ID:</label>
+                    <input type="number" id="user_id" name="user_id" defaultValue={1} required />
 
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.75rem" }}>
-                <Link to={`/messages/${message.message_id}`}>Ver detalle</Link>
-                <Link to={`/messages/edit/${message.message_id}`}>Editar</Link>
-            </div>
-        </article>
+                    <label htmlFor="promotion_id">Promotion ID:</label>
+                    <input type="number" id="promotion_id" name="promotion_id" defaultValue={1} required />
+
+                    <button type="submit" className="btn-submit" disabled={isPending}>
+                        {isPending ? 'Enviando...' : 'Guardar en favoritos'}
+                    </button>
+                </form>
+            )}
+        </>
     );
 }

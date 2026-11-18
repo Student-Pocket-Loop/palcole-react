@@ -56,15 +56,17 @@ export default function ConversationForm() {
     };
 
     if (isError) {
-        return <h3>Error al crear la conversación: {error?.message}</h3>;
+        return <div className="status-error">Error al crear la conversación: {error?.message}</div>;
     }
 
     return (
         <>
             {isSuccess && data ? (
-                <h3>La conversación se ha creado correctamente con ID: {data.conversation_id}!</h3>
+                <div className="status-success">
+                    La conversación se ha creado correctamente con ID: {data.conversation_id}!
+                </div>
             ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <form onSubmit={handleSubmit} className="entity-form">
                     <label htmlFor="item_id">Item ID:</label>
                     <input type="number" id="item_id" name="item_id" defaultValue={1} required />
 
@@ -80,7 +82,7 @@ export default function ConversationForm() {
                         required
                     />
 
-                    <button type="submit" disabled={isPending} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-submit" disabled={isPending}>
                         {isPending ? 'Enviando...' : 'Crear conversación'}
                     </button>
                 </form>
