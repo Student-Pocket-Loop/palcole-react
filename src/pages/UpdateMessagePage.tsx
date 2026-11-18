@@ -3,6 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Message } from '../types/Message';
 import type { MessageInput } from '../types/MessageInput';
+import messagesMock from '../data/messages.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function UpdateMessagePage() {
     const { id } = useParams<{ id: string }>();
@@ -12,38 +15,55 @@ export default function UpdateMessagePage() {
     const { data: message, isLoading, isError, error } = useQuery<Message, Error>({
         queryKey: ['messages', id],
         queryFn: async (): Promise<Message> => {
-            const response = await fetch(`http://localhost:3100/api/v1/messages/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/messages/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Mensaje no encontrado');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Mensaje no encontrado');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando mensaje de messages.json para editar');
+                const found = (messagesMock as Message[]).find((m) => m.message_id === Number(id));
+                if (!found) {
+                    throw new Error('Mensaje no encontrado en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const updateMutation = useMutation<Message, Error, MessageInput>({
         mutationFn: async (updatedMessage: MessageInput): Promise<Message> => {
-            const response = await fetch(`http://localhost:3100/api/v1/messages/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedMessage),
-            });
+            try {
+                const response = await fetch(`${API_URL}/messages/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedMessage),
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(
-                    Array.isArray(errorData.message)
-                        ? errorData.message.join(', ')
-                        : errorData.message || 'Error al actualizar el mensaje'
-                );
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(
+                        Array.isArray(errorData.message)
+                            ? errorData.message.join(', ')
+                            : errorData.message || 'Error al actualizar el mensaje'
+                    );
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, simulando actualización de mensaje');
+                return {
+                    message_id: Number(id),
+                    ...updatedMessage,
+                };
             }
-
-            return response.json();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['messages'] });

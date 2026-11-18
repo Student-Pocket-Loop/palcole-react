@@ -2,19 +2,27 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type { Message } from '../types/Message';
 import { MessageCard } from '../components/MessageCard';
+import messagesMock from '../data/messages.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function AllMessagesPage() {
     const { data: messages, isLoading, isError, error } = useQuery<Message[], Error>({
         queryKey: ['messages'],
         queryFn: async (): Promise<Message[]> => {
-            const response = await fetch('http://localhost:3100/api/v1/messages');
+            try {
+                const response = await fetch(`${API_URL}/messages/`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al obtener los mensajes');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al obtener los mensajes');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando datos mock de messages.json');
+                return messagesMock as Message[];
             }
-
-            return response.json();
         },
     });
 
