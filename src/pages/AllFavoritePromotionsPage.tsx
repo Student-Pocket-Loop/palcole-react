@@ -2,19 +2,27 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type { FavoritePromotion } from '../types/FavoritePromotion';
 import { FavoritePromotionCard } from '../components/FavoritePromotioncard';
+import favoritePromotionsMock from '../data/favorite-promotions.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function AllFavoritePromotionsPage() {
     const { data: favoritePromotions, isLoading, isError, error } = useQuery<FavoritePromotion[], Error>({
         queryKey: ['favorite-promotions'],
         queryFn: async (): Promise<FavoritePromotion[]> => {
-            const response = await fetch('http://localhost:3100/api/v1/favorite-promotions');
+            try {
+                const response = await fetch(`${API_URL}/favorite-promotions/`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al obtener las promociones favoritas');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al obtener las promociones favoritas');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando datos mock de favorite-promotions.json');
+                return favoritePromotionsMock as FavoritePromotion[];
             }
-
-            return response.json();
         },
     });
 

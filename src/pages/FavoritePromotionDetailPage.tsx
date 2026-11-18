@@ -1,6 +1,9 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { FavoritePromotion } from '../types/FavoritePromotion';
+import favoritePromotionsMock from '../data/favorite-promotions.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function FavoritePromotionDetailPage() {
     const { userId, promotionId } = useParams<{ userId: string; promotionId: string }>();
@@ -10,27 +13,42 @@ export default function FavoritePromotionDetailPage() {
     const { data: favoritePromotion, isLoading, isError, error } = useQuery<FavoritePromotion, Error>({
         queryKey: ['favorite-promotions', userId, promotionId],
         queryFn: async (): Promise<FavoritePromotion> => {
-            const response = await fetch(`http://localhost:3100/api/v1/favorite-promotions/${userId}/${promotionId}`);
+            try {
+                const response = await fetch(`${API_URL}/favorite-promotions/${userId}/${promotionId}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Promoción favorita no encontrada');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Promoción favorita no encontrada');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, buscando promoción favorita en favorite-promotions.json');
+                const found = (favoritePromotionsMock as FavoritePromotion[]).find(
+                    (f) => f.user_id === Number(userId) && f.promotion_id === Number(promotionId)
+                );
+                if (!found) {
+                    throw new Error('Promoción favorita no encontrada en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(userId && promotionId),
     });
 
     const deleteMutation = useMutation<void, Error>({
         mutationFn: async (): Promise<void> => {
-            const response = await fetch(`http://localhost:3100/api/v1/favorite-promotions/${userId}/${promotionId}`, {
-                method: 'DELETE',
-            });
+            try {
+                const response = await fetch(`${API_URL}/favorite-promotions/${userId}/${promotionId}`, {
+                    method: 'DELETE',
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al eliminar el favorito');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al eliminar el favorito');
+                }
+            } catch {
+                console.warn('Backend no disponible, simulando borrado de promoción favorita');
             }
         },
         onSuccess: () => {
