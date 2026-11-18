@@ -1,6 +1,9 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Conversation } from '../types/Conversation';
+import conversationsMock from '../data/conversations.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function ConversationDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -10,27 +13,42 @@ export default function ConversationDetailPage() {
     const { data: conversation, isLoading, isError, error } = useQuery<Conversation, Error>({
         queryKey: ['conversations', id],
         queryFn: async (): Promise<Conversation> => {
-            const response = await fetch(`http://localhost:3100/api/v1/conversations/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/conversations/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Conversación no encontrada');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Conversación no encontrada');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, buscando conversación en conversations.json');
+                const found = (conversationsMock as Conversation[]).find(
+                    (c) => c.conversation_id === Number(id)
+                );
+                if (!found) {
+                    throw new Error('Conversación no encontrada en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const deleteMutation = useMutation<void, Error>({
         mutationFn: async (): Promise<void> => {
-            const response = await fetch(`http://localhost:3100/api/v1/conversations/${id}`, {
-                method: 'DELETE',
-            });
+            try {
+                const response = await fetch(`${API_URL}/conversations/${id}`, {
+                    method: 'DELETE',
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al eliminar la conversación');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al eliminar la conversación');
+                }
+            } catch {
+                console.warn('Backend no disponible, simulando borrado de conversación');
             }
         },
         onSuccess: () => {

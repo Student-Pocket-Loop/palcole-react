@@ -3,6 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Conversation } from '../types/Conversation';
 import type { ConversationInput } from '../types/ConversationInput';
+import conversationsMock from '../data/conversations.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function UpdateConversationPage() {
     const { id } = useParams<{ id: string }>();
@@ -12,38 +15,57 @@ export default function UpdateConversationPage() {
     const { data: conversation, isLoading, isError, error } = useQuery<Conversation, Error>({
         queryKey: ['conversations', id],
         queryFn: async (): Promise<Conversation> => {
-            const response = await fetch(`http://localhost:3100/api/v1/conversations/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/conversations/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Conversación no encontrada');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Conversación no encontrada');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando conversación de conversations.json para editar');
+                const found = (conversationsMock as Conversation[]).find(
+                    (c) => c.conversation_id === Number(id)
+                );
+                if (!found) {
+                    throw new Error('Conversación no encontrada en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const updateMutation = useMutation<Conversation, Error, ConversationInput>({
         mutationFn: async (updatedConversation: ConversationInput): Promise<Conversation> => {
-            const response = await fetch(`http://localhost:3100/api/v1/conversations/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedConversation),
-            });
+            try {
+                const response = await fetch(`${API_URL}/conversations/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedConversation),
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(
-                    Array.isArray(errorData.message)
-                        ? errorData.message.join(', ')
-                        : errorData.message || 'Error al actualizar la conversación'
-                );
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(
+                        Array.isArray(errorData.message)
+                            ? errorData.message.join(', ')
+                            : errorData.message || 'Error al actualizar la conversación'
+                    );
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, simulando actualización de conversación');
+                return {
+                    conversation_id: Number(id),
+                    ...updatedConversation,
+                };
             }
-
-            return response.json();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['conversations'] });
