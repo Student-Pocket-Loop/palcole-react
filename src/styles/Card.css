@@ -1,0 +1,87 @@
+.entity-card {
+    background-color: var(--bg-surface);
+    border: 2px solid var(--border-ink);
+    border-top: 5px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.9rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-top-color 0.15s ease;
+}
+
+.entity-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-md);
+    border-top-color: var(--color-secondary);
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.card-title {
+    font-size: 1.15rem;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.card-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    background-color: var(--color-highlighter);
+    border: 1.5px solid var(--border-ink);
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.93rem;
+    color: var(--text-muted);
+}
+
+.card-body p {
+    margin: 0;
+}
+
+.card-body strong {
+    color: var(--text-main);
+}
+
+.card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding-top: 0.75rem;
+    border-top: 1.5px dashed var(--border-color);
+}
+
+.card-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-primary);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.card-link:hover {
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+}

@@ -1,0 +1,107 @@
+.detail-page {
+    max-width: 720px;
+    margin: 0 auto;
+    background-color: var(--bg-surface);
+    border: 2px solid var(--border-ink);
+    border-left: 8px solid var(--color-danger);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+}
+
+.detail-page h1 {
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 2px solid var(--border-ink);
+}
+
+.detail-list {
+    list-style: none;
+    margin: 0 0 1.5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.7rem 0.25rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.98rem;
+}
+
+.detail-list li:last-child {
+    border-bottom: none;
+}
+
+.detail-list li strong {
+    min-width: 165px;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 2px dashed var(--border-color);
+}
+
+.btn-back, .btn-edit, .btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border-ink);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.12s ease;
+}
+
+.btn-back {
+    background-color: var(--bg-muted);
+    color: var(--text-main);
+}
+
+.btn-back:hover {
+    background-color: #e2dfd3;
+    color: var(--text-main);
+}
+
+.btn-edit {
+    background-color: var(--color-secondary);
+    color: var(--text-main);
+}
+
+.btn-edit:hover {
+    background-color: #ca8a04;
+    color: var(--text-main);
+}
+
+.btn-delete {
+    background-color: var(--color-danger);
+    color: var(--text-inverse);
+    margin-left: auto;
+}
+
+.btn-delete:hover:not(:disabled) {
+    background-color: var(--color-danger-hover);
+}
+
+@media (max-width: 600px) {
+    .detail-page {
+        padding: 1.35rem;
+    }
+
+    .btn-delete {
+        margin-left: 0;
+    }
+}

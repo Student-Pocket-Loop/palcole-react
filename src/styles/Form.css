@@ -1,0 +1,102 @@
+.form-page {
+    max-width: 620px;
+    margin: 0 auto;
+    background-color: var(--bg-surface);
+    border: 2px solid var(--border-ink);
+    border-top: 8px solid var(--color-chalkboard);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+}
+
+.form-page h1 {
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 2px dashed var(--border-color);
+}
+
+.entity-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.entity-form label {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--text-main);
+    margin-top: 0.45rem;
+}
+
+.entity-form label:first-child {
+    margin-top: 0;
+}
+
+.entity-form input,
+.entity-form textarea,
+.entity-form select {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    background-color: var(--bg-body);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-main);
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.entity-form input:focus,
+.entity-form textarea:focus,
+.entity-form select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background-color: var(--bg-surface);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.entity-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn-submit {
+    margin-top: 1.25rem;
+    padding: 0.7rem 1.25rem;
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+    border: 2px solid var(--border-ink);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.98rem;
+    font-weight: 700;
+    transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.12s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow-md);
+}
+
+.form-back-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1.25rem;
+    padding: 0.45rem 0.9rem;
+    background-color: var(--bg-muted);
+    color: var(--text-main);
+    border: 1.5px solid var(--border-ink);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.form-back-link:hover {
+    background-color: #e2dfd3;
+    color: var(--text-main);
+}
+
+@media (max-width: 600px) {
+    .form-page {
+        padding: 1.35rem;
+    }
+}
