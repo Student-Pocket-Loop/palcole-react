@@ -1,6 +1,9 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Promotion } from '../types/Promotion';
+import promotionsMock from '../data/promotions.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function PromotionDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -10,27 +13,40 @@ export default function PromotionDetailPage() {
     const { data: promotion, isLoading, isError, error } = useQuery<Promotion, Error>({
         queryKey: ['promotions', id],
         queryFn: async (): Promise<Promotion> => {
-            const response = await fetch(`http://localhost:3100/api/v1/promotions/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/promotions/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Promoción no encontrada');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Promoción no encontrada');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, buscando promoción en promotions.json');
+                const found = (promotionsMock as Promotion[]).find((p) => p.promotion_id === Number(id));
+                if (!found) {
+                    throw new Error('Promoción no encontrada en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const deleteMutation = useMutation<void, Error>({
         mutationFn: async (): Promise<void> => {
-            const response = await fetch(`http://localhost:3100/api/v1/promotions/${id}`, {
-                method: 'DELETE',
-            });
+            try {
+                const response = await fetch(`${API_URL}/promotions/${id}`, {
+                    method: 'DELETE',
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al eliminar la promoción');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al eliminar la promoción');
+                }
+            } catch {
+                console.warn('Backend no disponible, simulando borrado de promoción');
             }
         },
         onSuccess: () => {

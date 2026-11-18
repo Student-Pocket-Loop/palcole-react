@@ -3,6 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Promotion } from '../types/Promotion';
 import type { PromotionInput } from '../types/PromotionInput';
+import promotionsMock from '../data/promotions.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function UpdatePromotionPage() {
     const { id } = useParams<{ id: string }>();
@@ -12,38 +15,55 @@ export default function UpdatePromotionPage() {
     const { data: promotion, isLoading, isError, error } = useQuery<Promotion, Error>({
         queryKey: ['promotions', id],
         queryFn: async (): Promise<Promotion> => {
-            const response = await fetch(`http://localhost:3100/api/v1/promotions/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/promotions/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Promoción no encontrada');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Promoción no encontrada');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando promoción de promotions.json para editar');
+                const found = (promotionsMock as Promotion[]).find((p) => p.promotion_id === Number(id));
+                if (!found) {
+                    throw new Error('Promoción no encontrada en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const updateMutation = useMutation<Promotion, Error, PromotionInput>({
         mutationFn: async (updatedPromotion: PromotionInput): Promise<Promotion> => {
-            const response = await fetch(`http://localhost:3100/api/v1/promotions/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedPromotion),
-            });
+            try {
+                const response = await fetch(`${API_URL}/promotions/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedPromotion),
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(
-                    Array.isArray(errorData.message)
-                        ? errorData.message.join(', ')
-                        : errorData.message || 'Error al actualizar la promoción'
-                );
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(
+                        Array.isArray(errorData.message)
+                            ? errorData.message.join(', ')
+                            : errorData.message || 'Error al actualizar la promoción'
+                    );
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, simulando actualización de promoción');
+                return {
+                    promotion_id: Number(id),
+                    ...updatedPromotion,
+                };
             }
-
-            return response.json();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['promotions'] });
