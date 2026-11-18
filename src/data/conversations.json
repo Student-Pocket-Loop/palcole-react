@@ -1,0 +1,14 @@
+[
+  {
+    "conversation_id": 1,
+    "item_id": 1,
+    "buyer_id": 2,
+    "started_at": "2026-10-16T11:20:00.000Z"
+  },
+  {
+    "conversation_id": 2,
+    "item_id": 2,
+    "buyer_id": 1,
+    "started_at": "2026-10-17T18:45:00.000Z"
+  }
+]

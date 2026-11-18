@@ -1,0 +1,38 @@
+[
+  {
+    "user_id": 1,
+    "role_id": 1,
+    "username": "ana_garcia",
+    "email": "ana.garcia@palcole.es",
+    "password_hash": "hash_simulado_123",
+    "educational_center": "IES Triana",
+    "is_verified": true,
+    "registration_date": "2026-09-01",
+    "expiration_date": "2027-06-30",
+    "is_active": true
+  },
+  {
+    "user_id": 2,
+    "role_id": 1,
+    "username": "lucas_martinez",
+    "email": "lucas.martinez@palcole.es",
+    "password_hash": "hash_simulado_456",
+    "educational_center": "IES Nervión",
+    "is_verified": true,
+    "registration_date": "2026-09-05",
+    "expiration_date": null,
+    "is_active": true
+  },
+  {
+    "user_id": 3,
+    "role_id": 2,
+    "username": "admin_palcole",
+    "email": "admin@palcole.es",
+    "password_hash": "hash_admin_789",
+    "educational_center": "Centro Educativo Central",
+    "is_verified": true,
+    "registration_date": "2026-08-15",
+    "expiration_date": null,
+    "is_active": true
+  }
+]

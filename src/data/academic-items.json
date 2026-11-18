@@ -1,0 +1,41 @@
+[
+  {
+    "item_id": 1,
+    "student_id": 1,
+    "category_id": 1,
+    "title": "Libro Matemáticas II Bachillerato",
+    "description": "Edición 2025 en muy buen estado, sin subrayar y con cuadernillo de ejercicios.",
+    "price": 18.5,
+    "item_condition": "like_new",
+    "listing_type": "sale",
+    "sale_status": "available",
+    "published_at": "2026-10-10T10:30:00.000Z",
+    "image_url": "https://placehold.co/400x300?text=Matematicas+II"
+  },
+  {
+    "item_id": 2,
+    "student_id": 2,
+    "category_id": 2,
+    "title": "Apuntes completos Historia de España",
+    "description": "Todos los temas resumidos y esquematizados listos para Selectividad.",
+    "price": 5.0,
+    "item_condition": "new",
+    "listing_type": "sale",
+    "sale_status": "available",
+    "published_at": "2026-10-12T16:15:00.000Z",
+    "image_url": null
+  },
+  {
+    "item_id": 3,
+    "student_id": 1,
+    "category_id": 3,
+    "title": "Calculadora Científica Casio fx-991SP",
+    "description": "Funciona perfectamente, incluye tapa protectora original.",
+    "price": 15.0,
+    "item_condition": "good",
+    "listing_type": "exchange",
+    "sale_status": "reserved",
+    "published_at": "2026-10-15T09:00:00.000Z",
+    "image_url": "https://placehold.co/400x300?text=Calculadora+Casio"
+  }
+]

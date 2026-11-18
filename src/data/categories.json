@@ -1,0 +1,18 @@
+[
+  {
+    "category_id": 1,
+    "name": "Libros de Texto"
+  },
+  {
+    "category_id": 2,
+    "name": "Apuntes y Resúmenes"
+  },
+  {
+    "category_id": 3,
+    "name": "Material de Clase"
+  },
+  {
+    "category_id": 4,
+    "name": "Calculadora"
+  }
+]
