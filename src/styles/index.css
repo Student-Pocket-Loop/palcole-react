@@ -1,0 +1,136 @@
+:root {
+    /* Paleta escolar (Boli azul, Pizarra, Subrayador y Boli rojo) */
+    --color-primary: #1d4ed8;        /* Azul boli Bic */
+    --color-primary-hover: #1e40af;
+    --color-primary-light: #dbeafe;
+    --color-chalkboard: #1b4332;     /* Verde pizarra para barra superior / acentos */
+    --color-secondary: #eab308;      /* Amarillo subrayador / lápiz */
+    --color-highlighter: #fef08a;    /* Resaltado fluorescente suave */
+
+    /* Estados semánticos */
+    --color-danger: #dc2626;         /* Rojo boli de corregir */
+    --color-danger-hover: #b91c1c;
+    --color-danger-light: #fee2e2;
+    --color-success: #15803d;        /* Verde aprobado */
+    --color-success-light: #dcfce7;
+
+    /* Fondos y superficies (Papel de libreta y fichas) */
+    --bg-body: #fdfbf7;              /* Blanco cálido tipo hoja de cuaderno */
+    --bg-surface: #ffffff;           /* Ficha de estudio / tarjeta */
+    --bg-muted: #f3f0e6;             /* Papel reciclado suave */
+
+    /* Textos */
+    --text-main: #1e293b;            /* Tinta oscura */
+    --text-muted: #475569;           /* Grafito / lápiz */
+    --text-inverse: #ffffff;
+
+    /* Bordes, radios y sombras tipo ficha / pegatina */
+    --border-color: #cbd5e1;
+    --border-ink: #1e293b;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --shadow-sm: 2px 2px 0px rgba(30, 41, 59, 0.12);
+    --shadow-md: 4px 4px 0px rgba(30, 41, 59, 0.16);
+
+    /* Tipografía y dimensiones */
+    --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    --container-width: 1200px;
+}
+
+/* Reset básico */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+
+    /* Fondo sutil de libreta de cuadrícula */
+    background-color: var(--bg-body);
+    background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 0.75rem 0;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--text-main);
+}
+
+h1 {
+    font-size: 1.75rem;
+}
+
+p {
+    margin: 0 0 1rem 0;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Clases globales para estados de React Query (cargando / error / éxito) */
+.status-loading {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    background-color: var(--bg-surface);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.status-error {
+    padding: 0.85rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-danger-light);
+    color: var(--color-danger);
+    border: 2px solid #fca5a5;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.status-success {
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-success-light);
+    color: var(--color-success);
+    border: 2px solid #86efac;
+    font-weight: 700;
+}
