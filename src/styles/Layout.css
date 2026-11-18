@@ -1,0 +1,108 @@
+.layout-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Barra de navegación estilo pizarra escolar */
+.navbar {
+    background-color: var(--color-chalkboard);
+    color: var(--text-inverse);
+    border-bottom: 5px solid #b45309; /* Borde inferior tipo marco de madera */
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.18);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--text-inverse);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-sm);
+    border: 1.5px dashed rgba(255, 255, 255, 0.35);
+}
+
+.navbar-brand:hover {
+    color: var(--color-highlighter);
+    border-color: var(--color-highlighter);
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-link {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.navbar-link:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+    color: var(--text-inverse);
+}
+
+/* Enlace activo resaltado como subrayador amarillo */
+.navbar-link.active,
+.navbar-link[aria-current="page"] {
+    background-color: var(--color-secondary);
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+/* Contenedor principal sobre la hoja de libreta */
+.main-container {
+    flex: 1;
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+}
+
+/* Pie de página estilo margen inferior de cuaderno */
+.footer {
+    background-color: var(--bg-muted);
+    border-top: 2px solid var(--border-color);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .main-container {
+        padding: 1.25rem 1rem;
+    }
+}
