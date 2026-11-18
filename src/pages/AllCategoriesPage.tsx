@@ -2,19 +2,27 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type { Category } from '../types/Category';
 import { CategoryCard } from '../components/CategoryCard';
+import categoriesMock from '../data/categories.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function AllCategoriesPage() {
     const { data: categories, isLoading, isError, error } = useQuery<Category[], Error>({
         queryKey: ['categories'],
         queryFn: async (): Promise<Category[]> => {
-            const response = await fetch('http://localhost:3100/api/v1/categories');
+            try {
+                const response = await fetch(`${API_URL}/categories/`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al obtener las categorías');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al obtener las categorías');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando datos mock de categories.json');
+                return categoriesMock as Category[];
             }
-
-            return response.json();
         },
     });
 

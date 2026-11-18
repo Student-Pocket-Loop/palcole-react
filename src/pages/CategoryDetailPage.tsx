@@ -1,6 +1,9 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Category } from '../types/Category';
+import categoriesMock from '../data/categories.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function CategoryDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -10,27 +13,40 @@ export default function CategoryDetailPage() {
     const { data: category, isLoading, isError, error } = useQuery<Category, Error>({
         queryKey: ['categories', id],
         queryFn: async (): Promise<Category> => {
-            const response = await fetch(`http://localhost:3100/api/v1/categories/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/categories/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Categoría no encontrada');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Categoría no encontrada');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, buscando categoría en categories.json');
+                const found = (categoriesMock as Category[]).find((c) => c.category_id === Number(id));
+                if (!found) {
+                    throw new Error('Categoría no encontrada en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const deleteMutation = useMutation<void, Error>({
         mutationFn: async (): Promise<void> => {
-            const response = await fetch(`http://localhost:3100/api/v1/categories/${id}`, {
-                method: 'DELETE',
-            });
+            try {
+                const response = await fetch(`${API_URL}/categories/${id}`, {
+                    method: 'DELETE',
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al eliminar la categoría');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al eliminar la categoría');
+                }
+            } catch {
+                console.warn('Backend no disponible, simulando borrado de categoría');
             }
         },
         onSuccess: () => {
