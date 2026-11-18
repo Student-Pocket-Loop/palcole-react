@@ -33,6 +33,10 @@ import AllConversationsPage from "../pages/AllConversationsPage";
 import InsertConversationPage from "../pages/InsertConversationPage";
 import ConversationDetailPage from "../pages/ConversationDetailPage";
 import UpdateConversationPage from "../pages/UpdateConversationPage";
+import AllMessagesPage from "../pages/AllMessagesPage";
+import InsertMessagePage from "../pages/InsertMessagePage";
+import MessageDetailPage from "../pages/MessageDetailPage";
+import UpdateMessagePage from "../pages/UpdateMessagePage";
 
 export const PalcoleRouter = createBrowserRouter([
     {
@@ -84,7 +88,10 @@ export const PalcoleRouter = createBrowserRouter([
             { path: "conversations/:id", element: <ConversationDetailPage /> },
             { path: "conversations/edit/:id", element: <UpdateConversationPage /> },
             
-            { path: "messages", element: <div>CRUD Messages (En construcción)</div> },
+            { path: "messages", element: <AllMessagesPage /> },
+            { path: "messages/new", element: <InsertMessagePage /> },
+            { path: "messages/:id", element: <MessageDetailPage /> },
+            { path: "messages/edit/:id", element: <UpdateMessagePage /> }
         ]
     }
 ]);
