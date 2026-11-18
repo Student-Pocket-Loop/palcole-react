@@ -1,6 +1,9 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Role } from '../types/Role';
+import rolesMock from '../data/roles.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function RoleDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -10,27 +13,40 @@ export default function RoleDetailPage() {
     const { data: role, isLoading, isError, error } = useQuery<Role, Error>({
         queryKey: ['roles', id],
         queryFn: async (): Promise<Role> => {
-            const response = await fetch(`http://localhost:3100/api/v1/roles/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/roles/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Rol no encontrado');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Rol no encontrado');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, buscando rol en roles.json');
+                const found = (rolesMock as Role[]).find((r) => r.role_id === Number(id));
+                if (!found) {
+                    throw new Error('Rol no encontrado en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const deleteMutation = useMutation<void, Error>({
         mutationFn: async (): Promise<void> => {
-            const response = await fetch(`http://localhost:3100/api/v1/roles/${id}`, {
-                method: 'DELETE',
-            });
+            try {
+                const response = await fetch(`${API_URL}/roles/${id}`, {
+                    method: 'DELETE',
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al eliminar el rol');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al eliminar el rol');
+                }
+            } catch {
+                console.warn('Backend no disponible, simulando borrado de rol');
             }
         },
         onSuccess: () => {

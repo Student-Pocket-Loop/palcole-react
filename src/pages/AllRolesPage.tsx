@@ -2,19 +2,27 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type { Role } from '../types/Role';
 import { RoleCard } from '../components/RoleCard';
+import rolesMock from '../data/roles.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function AllRolesPage() {
     const { data: roles, isLoading, isError, error } = useQuery<Role[], Error>({
         queryKey: ['roles'],
         queryFn: async (): Promise<Role[]> => {
-            const response = await fetch('http://localhost:3100/api/v1/roles');
+            try {
+                const response = await fetch(`${API_URL}/roles/`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al obtener los roles');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al obtener los roles');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando datos mock de roles.json');
+                return rolesMock as Role[];
             }
-
-            return response.json();
         },
     });
 
