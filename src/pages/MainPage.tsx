@@ -20,21 +20,31 @@ const ENTITIES: EntityCard[] = [
 ];
 
 export default function MainPage() {
-  return (
-        <section>
-            <h1>Panel de Gestión</h1>
-            <p>Selecciona una entidad para administrar sus registros:</p>
+    return (
+        <section className="main-page">
+            <div className="hero-banner">
+                <h1 className="hero-title">
+                    Panel de <span className="hero-highlight">Gestión</span>
+                </h1>
+                <p className="hero-subtitle">
+                    Selecciona una entidad para administrar sus registros:
+                </p>
+            </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+            <div className="entities-grid">
                 {ENTITIES.map((entity) => (
-                <article key={entity.path} style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}>
-                    <small>{entity.group}</small>
-                    <h2>{entity.title}</h2>
-                    <p>{entity.description}</p>
-                    <Link to={entity.path}>Gestionar →</Link>
-                </article>
+                    <article key={entity.path} className="entity-tile">
+                        <div>
+                            <small className="card-badge">{entity.group}</small>
+                            <h2 className="entity-tile-title">{entity.title}</h2>
+                            <p className="entity-tile-desc">{entity.description}</p>
+                        </div>
+                        <Link to={entity.path} className="entity-tile-link">
+                            Gestionar →
+                        </Link>
+                    </article>
                 ))}
             </div>
         </section>
-  );
+    );
 }
