@@ -55,14 +55,14 @@ export default function UserDetailPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando detalle del usuario...</p>;
-    if (isError || !user) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando detalle del usuario...</p>;
+    if (isError || !user) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="detail-page">
             <h1>Detalle del Usuario #{user.user_id}</h1>
 
-            <ul>
+            <ul className="detail-list">
                 <li><strong>Username:</strong> {user.username}</li>
                 <li><strong>Role ID:</strong> {user.role_id}</li>
                 <li><strong>Email:</strong> {user.email}</li>
@@ -74,14 +74,15 @@ export default function UserDetailPage() {
             </ul>
 
             {deleteMutation.isError && (
-                <p style={{ color: 'red' }}>Error al eliminar: {deleteMutation.error?.message}</p>
+                <div className="status-error">Error al eliminar: {deleteMutation.error?.message}</div>
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
-                <Link to="/users">← Volver</Link>
-                <Link to={`/users/edit/${user.user_id}`}>Editar</Link>
+            <div className="detail-actions">
+                <Link to="/users" className="btn-back">← Volver</Link>
+                <Link to={`/users/edit/${user.user_id}`} className="btn-edit">Editar</Link>
                 <button
                     type="button"
+                    className="btn-delete"
                     disabled={deleteMutation.isPending}
                     onClick={() => {
                         if (confirm(`¿Seguro que quieres eliminar a ${user.username}?`)) {

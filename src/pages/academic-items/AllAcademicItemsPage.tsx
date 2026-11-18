@@ -26,21 +26,25 @@ export default function AllAcademicItemsPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando recursos académicos...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando recursos académicos...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Academic Items</h1>
-                <Link to="/academic-items/new">+ Insertar recurso</Link>
+                <Link to="/academic-items/new" className="btn-create">+ Insertar recurso</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {items?.map((item) => (
-                    <AcademicItemCard key={item.item_id} item={item} />
-                ))}
-            </div>
+            {items && items.length === 0 ? (
+                <p className="empty-state">No hay recursos académicos disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {items?.map((item) => (
+                        <AcademicItemCard key={item.item_id} item={item} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

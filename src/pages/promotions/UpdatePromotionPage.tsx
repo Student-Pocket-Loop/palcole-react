@@ -90,18 +90,18 @@ export default function UpdatePromotionPage() {
         updateMutation.mutate(updatedPromotion);
     };
 
-    if (isLoading) return <p>Cargando datos de la promoción...</p>;
-    if (isError || !promotion) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando datos de la promoción...</p>;
+    if (isError || !promotion) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="form-page">
             <h1>Editar Promoción #{promotion.promotion_id}</h1>
 
             {updateMutation.isError && (
-                <h3 style={{ color: 'red' }}>Error al actualizar: {updateMutation.error?.message}</h3>
+                <div className="status-error">Error al actualizar: {updateMutation.error?.message}</div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <form onSubmit={handleSubmit} className="entity-form">
                 <label htmlFor="category_id">Category ID:</label>
                 <input type="number" id="category_id" name="category_id" defaultValue={promotion.category_id} required />
 
@@ -141,13 +141,14 @@ export default function UpdatePromotionPage() {
                     required
                 />
 
-                <button type="submit" disabled={updateMutation.isPending} style={{ marginTop: '20px' }}>
+                <button type="submit" className="btn-submit" disabled={updateMutation.isPending}>
                     {updateMutation.isPending ? 'Guardando...' : 'Actualizar promoción'}
                 </button>
             </form>
 
-            <br />
-            <Link to={`/promotions/${promotion.promotion_id}`}>← Cancelar y volver</Link>
+            <Link to={`/promotions/${promotion.promotion_id}`} className="form-back-link">
+                ← Cancelar y volver
+            </Link>
         </section>
     );
 }

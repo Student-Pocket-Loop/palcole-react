@@ -26,21 +26,25 @@ export default function AllFavoritePromotionsPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando promociones favoritas...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando promociones favoritas...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Favorite Promotions</h1>
-                <Link to="/favorite-promotions/new">+ Añadir favorito</Link>
+                <Link to="/favorite-promotions/new" className="btn-create">+ Añadir favorito</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {favoritePromotions?.map((fav) => (
-                    <FavoritePromotionCard key={`${fav.user_id}-${fav.promotion_id}`} favoritePromotion={fav} />
-                ))}
-            </div>
+            {favoritePromotions && favoritePromotions.length === 0 ? (
+                <p className="empty-state">No hay promociones favoritas disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {favoritePromotions?.map((fav) => (
+                        <FavoritePromotionCard key={`${fav.user_id}-${fav.promotion_id}`} favoritePromotion={fav} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

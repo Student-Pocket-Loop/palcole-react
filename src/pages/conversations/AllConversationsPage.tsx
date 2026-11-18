@@ -26,21 +26,25 @@ export default function AllConversationsPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando conversaciones...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando conversaciones...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Conversaciones</h1>
-                <Link to="/conversations/new">+ Nueva conversación</Link>
+                <Link to="/conversations/new" className="btn-create">+ Nueva conversación</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {conversations?.map((conversation) => (
-                    <ConversationCard key={conversation.conversation_id} conversation={conversation} />
-                ))}
-            </div>
+            {conversations && conversations.length === 0 ? (
+                <p className="empty-state">No hay conversaciones disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {conversations?.map((conversation) => (
+                        <ConversationCard key={conversation.conversation_id} conversation={conversation} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

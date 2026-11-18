@@ -26,21 +26,25 @@ export default function AllPromotionsPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando promociones...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando promociones...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Promociones</h1>
-                <Link to="/promotions/new">+ Insertar promoción</Link>
+                <Link to="/promotions/new" className="btn-create">+ Insertar promoción</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {promotions?.map((promotion) => (
-                    <PromotionCard key={promotion.promotion_id} promotion={promotion} />
-                ))}
-            </div>
+            {promotions && promotions.length === 0 ? (
+                <p className="empty-state">No hay promociones disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {promotions?.map((promotion) => (
+                        <PromotionCard key={promotion.promotion_id} promotion={promotion} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

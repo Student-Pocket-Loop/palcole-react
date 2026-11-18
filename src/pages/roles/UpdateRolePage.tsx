@@ -82,18 +82,18 @@ export default function UpdateRolePage() {
         updateMutation.mutate(updatedRole);
     };
 
-    if (isLoading) return <p>Cargando datos del rol...</p>;
-    if (isError || !role) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando datos del rol...</p>;
+    if (isError || !role) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="form-page">
             <h1>Editar Rol #{role.role_id}</h1>
 
             {updateMutation.isError && (
-                <h3 style={{ color: 'red' }}>Error al actualizar: {updateMutation.error?.message}</h3>
+                <div className="status-error">Error al actualizar: {updateMutation.error?.message}</div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <form onSubmit={handleSubmit} className="entity-form">
                 <label htmlFor="name">Nombre del rol:</label>
                 <input
                     type="text"
@@ -104,13 +104,14 @@ export default function UpdateRolePage() {
                     required
                 />
 
-                <button type="submit" disabled={updateMutation.isPending} style={{ marginTop: '20px' }}>
+                <button type="submit" className="btn-submit" disabled={updateMutation.isPending}>
                     {updateMutation.isPending ? 'Guardando...' : 'Actualizar rol'}
                 </button>
             </form>
 
-            <br />
-            <Link to={`/roles/${role.role_id}`}>← Cancelar y volver</Link>
+            <Link to={`/roles/${role.role_id}`} className="form-back-link">
+                ← Cancelar y volver
+            </Link>
         </section>
     );
 }

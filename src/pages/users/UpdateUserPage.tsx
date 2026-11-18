@@ -91,18 +91,18 @@ export default function UpdateUserPage() {
         updateMutation.mutate(updatedUser);
     };
 
-    if (isLoading) return <p>Cargando datos del usuario...</p>;
-    if (isError || !user) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando datos del usuario...</p>;
+    if (isError || !user) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
+        <section className="form-page">
             <h1>Editar Usuario #{user.user_id}</h1>
 
             {updateMutation.isError && (
-                <h3 style={{ color: 'red' }}>Error al actualizar: {updateMutation.error?.message}</h3>
+                <div className="status-error">Error al actualizar: {updateMutation.error?.message}</div>
             )}
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <form onSubmit={handleSubmit} className="entity-form">
                 <label htmlFor="role_id">Role ID:</label>
                 <input type="number" id="role_id" name="role_id" defaultValue={user.role_id} required />
 
@@ -157,13 +157,14 @@ export default function UpdateUserPage() {
                     <input type="checkbox" id="is_active" name="is_active" defaultChecked={user.is_active} /> Usuario activo
                 </label>
 
-                <button type="submit" disabled={updateMutation.isPending} style={{ marginTop: '20px' }}>
+                <button type="submit" className="btn-submit" disabled={updateMutation.isPending}>
                     {updateMutation.isPending ? 'Guardando...' : 'Actualizar usuario'}
                 </button>
             </form>
 
-            <br />
-            <Link to={`/users/${user.user_id}`}>← Cancelar y volver</Link>
+            <Link to={`/users/${user.user_id}`} className="form-back-link">
+                ← Cancelar y volver
+            </Link>
         </section>
     );
 }

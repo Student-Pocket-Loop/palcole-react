@@ -3,11 +3,10 @@ import RoleForm from '../../components/roles/RoleForm';
 
 export default function InsertRolePage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Insertar Rol</h1>
             <RoleForm />
-            <br />
-            <Link to="/roles">← Volver al listado</Link>
+            <Link to="/roles" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }

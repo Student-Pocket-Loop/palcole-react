@@ -26,21 +26,25 @@ export default function AllRolesPage() {
         },
     });
 
-    if (isLoading) return <p>Cargando roles...</p>;
-    if (isError) return <h3>Error: {error?.message}</h3>;
+    if (isLoading) return <p className="status-loading">Cargando roles...</p>;
+    if (isError) return <div className="status-error">Error: {error?.message}</div>;
 
     return (
-        <section>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <section className="list-page">
+            <div className="list-header">
                 <h1>Listado de Roles</h1>
-                <Link to="/roles/new">+ Insertar rol</Link>
+                <Link to="/roles/new" className="btn-create">+ Insertar rol</Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                {roles?.map((role) => (
-                    <RoleCard key={role.role_id} role={role} />
-                ))}
-            </div>
+            {roles && roles.length === 0 ? (
+                <p className="empty-state">No hay roles disponibles.</p>
+            ) : (
+                <div className="cards-grid">
+                    {roles?.map((role) => (
+                        <RoleCard key={role.role_id} role={role} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

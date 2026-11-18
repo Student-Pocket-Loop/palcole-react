@@ -58,6 +58,12 @@
     min-height: 100px;
 }
 
+.entity-form input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+  accent-color: var(--color-primary);
+}
+
 .btn-submit {
     margin-top: 1.25rem;
     padding: 0.7rem 1.25rem;

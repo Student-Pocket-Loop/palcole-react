@@ -3,11 +3,10 @@ import AcademicItemForm from '../../components/academic-items/AcademicItemForm';
 
 export default function InsertAcademicItemPage() {
     return (
-        <section>
+        <section className="form-page">
             <h1>Insertar Recurso Académico</h1>
             <AcademicItemForm />
-            <br />
-            <Link to="/academic-items">← Volver al listado</Link>
+            <Link to="/academic-items" className="form-back-link">← Volver al listado</Link>
         </section>
     );
 }
