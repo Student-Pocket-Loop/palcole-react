@@ -6,6 +6,7 @@
 
 /* Barra de navegación estilo pizarra escolar */
 .navbar {
+    flex-shrink: 0;
     background-color: var(--color-chalkboard);
     color: var(--text-inverse);
     border-bottom: 5px solid #b45309; /* Borde inferior tipo marco de madera */
@@ -18,7 +19,7 @@
 .navbar-container {
     max-width: var(--container-width);
     margin: 0 auto;
-    padding: 0.85rem 1.25rem;
+    padding: 0.65rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -79,19 +80,22 @@
 /* Contenedor principal sobre la hoja de libreta */
 .main-container {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: var(--container-width);
     margin: 0 auto;
-    padding: 2rem 1.25rem;
+    padding: 0.85rem 1.25rem;
 }
 
 /* Pie de página estilo margen inferior de cuaderno */
 .footer {
+    flex-shrink: 0;
     background-color: var(--bg-muted);
     border-top: 2px solid var(--border-color);
     color: var(--text-muted);
     text-align: center;
-    padding: 1rem 1.25rem;
+    padding: 0.6rem 1.25rem;
     font-size: 0.875rem;
     font-weight: 500;
 }

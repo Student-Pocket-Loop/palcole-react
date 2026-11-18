@@ -10,27 +10,18 @@ interface EntityCard {
 const ENTITIES: EntityCard[] = [
     { title: "Users", description: "Gestión de cuentas y perfiles de usuario", path: "/users", group: "Usuarios" },
     { title: "Roles", description: "Administración de roles y permisos", path: "/roles", group: "Usuarios" },
-    { title: "Categories", description: "Categorías para organizar los recursos", path: "/categories", group: "Usuarios" },
+    { title: "Categories", description: "Categorías para organizar los recursos", path: "/categories", group: "Catálogo" },
     { title: "Academic Items", description: "Apuntes, materiales y recursos académicos", path: "/academic-items", group: "Catálogo" },
     { title: "Promotions", description: "Descuentos y promociones activas", path: "/promotions", group: "Catálogo" },
-    { title: "Favorite Items", description: "Recursos guardados como favoritos", path: "/favorite-items", group: "Catálogo" },
-    { title: "Favorite Promotions", description: "Promociones marcadas como favoritas", path: "/favorite-promotions", group: "Interacción" },
-    { title: "Conversations", description: "Hilos de chat entre usuarios", path: "/conversations", group: "Interacción" },
-    { title: "Messages", description: "Historial de mensajes enviados", path: "/messages", group: "Interacción" },
+    { title: "Favorite Items", description: "Recursos guardados como favoritos", path: "/favorite-items", group: "Favoritos" },
+    { title: "Favorite Promotions", description: "Promociones marcadas como favoritas", path: "/favorite-promotions", group: "Favoritos" },
+    { title: "Conversations", description: "Hilos de chat entre usuarios", path: "/conversations", group: "Mensajería" },
+    { title: "Messages", description: "Historial de mensajes enviados", path: "/messages", group: "Mensajería" },
 ];
 
 export default function MainPage() {
     return (
         <section className="main-page">
-            <div className="hero-banner">
-                <h1 className="hero-title">
-                    Panel de <span className="hero-highlight">Gestión</span>
-                </h1>
-                <p className="hero-subtitle">
-                    Selecciona una entidad para administrar sus registros:
-                </p>
-            </div>
-
             <div className="entities-grid">
                 {ENTITIES.map((entity) => (
                     <article key={entity.path} className="entity-tile">
