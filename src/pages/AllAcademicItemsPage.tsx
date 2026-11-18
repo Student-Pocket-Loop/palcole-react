@@ -2,19 +2,27 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type { AcademicItem } from '../types/AcademicItem';
 import { AcademicItemCard } from '../components/AcademicItemCard';
+import academicItemsMock from '../data/academic-items.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function AllAcademicItemsPage() {
     const { data: items, isLoading, isError, error } = useQuery<AcademicItem[], Error>({
         queryKey: ['academic-items'],
         queryFn: async (): Promise<AcademicItem[]> => {
-            const response = await fetch('http://localhost:3100/api/v1/academic-items');
+            try {
+                const response = await fetch(`${API_URL}/academic-items/`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al obtener los recursos académicos');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al obtener los recursos académicos');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando datos mock de academic-items.json');
+                return academicItemsMock as AcademicItem[];
             }
-
-            return response.json();
         },
     });
 

@@ -3,6 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AcademicItem } from '../types/AcademicItem';
 import type { AcademicItemInput } from '../types/AcademicItemInput';
+import academicItemsMock from '../data/academic-items.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function UpdateAcademicItemPage() {
     const { id } = useParams<{ id: string }>();
@@ -12,38 +15,55 @@ export default function UpdateAcademicItemPage() {
     const { data: item, isLoading, isError, error } = useQuery<AcademicItem, Error>({
         queryKey: ['academic-items', id],
         queryFn: async (): Promise<AcademicItem> => {
-            const response = await fetch(`http://localhost:3100/api/v1/academic-items/${id}`);
+            try {
+                const response = await fetch(`${API_URL}/academic-items/${id}`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Recurso académico no encontrado');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Recurso académico no encontrado');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando recurso de academic-items.json para editar');
+                const found = (academicItemsMock as AcademicItem[]).find((i) => i.item_id === Number(id));
+                if (!found) {
+                    throw new Error('Recurso académico no encontrado en datos mock');
+                }
+                return found;
             }
-
-            return response.json();
         },
         enabled: Boolean(id),
     });
 
     const updateMutation = useMutation<AcademicItem, Error, AcademicItemInput>({
         mutationFn: async (updatedItem: AcademicItemInput): Promise<AcademicItem> => {
-            const response = await fetch(`http://localhost:3100/api/v1/academic-items/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedItem),
-            });
+            try {
+                const response = await fetch(`${API_URL}/academic-items/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedItem),
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(
-                    Array.isArray(errorData.message)
-                        ? errorData.message.join(', ')
-                        : errorData.message || 'Error al actualizar el recurso académico'
-                );
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(
+                        Array.isArray(errorData.message)
+                            ? errorData.message.join(', ')
+                            : errorData.message || 'Error al actualizar el recurso académico'
+                    );
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, simulando actualización de recurso académico');
+                return {
+                    item_id: Number(id),
+                    ...updatedItem,
+                };
             }
-
-            return response.json();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['academic-items'] });
