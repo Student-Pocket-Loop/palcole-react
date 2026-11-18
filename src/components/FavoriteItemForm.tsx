@@ -3,6 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 import type { FavoriteItem } from '../types/FavoriteItem';
 import type { FavoriteItemInput } from '../types/FavoriteItemInput';
 
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
+
 export default function FavoriteItemForm() {
     const { mutate, data, isPending, isError, error, isSuccess } = useMutation<
         FavoriteItem,
@@ -10,24 +12,31 @@ export default function FavoriteItemForm() {
         FavoriteItemInput
     >({
         mutationFn: async (newFavorite: FavoriteItemInput): Promise<FavoriteItem> => {
-            const response = await fetch('http://localhost:3100/api/v1/favorite-items', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newFavorite),
-            });
+            try {
+                const response = await fetch(`${API_URL}/favorite-items/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newFavorite),
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(
-                    Array.isArray(errorData.message)
-                        ? errorData.message.join(', ')
-                        : errorData.message || 'Error al añadir el item a favoritos'
-                );
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(
+                        Array.isArray(errorData.message)
+                            ? errorData.message.join(', ')
+                            : errorData.message || 'Error al añadir el item a favoritos'
+                    );
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, simulando inserción de favorito');
+                return {
+                    ...newFavorite,
+                };
             }
-
-            return response.json();
         },
     });
 

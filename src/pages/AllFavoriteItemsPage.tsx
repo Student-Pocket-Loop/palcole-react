@@ -2,19 +2,27 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type { FavoriteItem } from '../types/FavoriteItem';
 import { FavoriteItemCard } from '../components/FavoriteItemCard';
+import favoriteItemsMock from '../data/favorite-items.json';
+
+const API_URL = import.meta.env.VITE_PALCOLE_BACKEND;
 
 export default function AllFavoriteItemsPage() {
     const { data: favoriteItems, isLoading, isError, error } = useQuery<FavoriteItem[], Error>({
         queryKey: ['favorite-items'],
         queryFn: async (): Promise<FavoriteItem[]> => {
-            const response = await fetch('http://localhost:3100/api/v1/favorite-items');
+            try {
+                const response = await fetch(`${API_URL}/favorite-items/`);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || 'Error al obtener los items favoritos');
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || 'Error al obtener los items favoritos');
+                }
+
+                return await response.json();
+            } catch {
+                console.warn('Backend no disponible, cargando datos mock de favorite-items.json');
+                return favoriteItemsMock as FavoriteItem[];
             }
-
-            return response.json();
         },
     });
 
